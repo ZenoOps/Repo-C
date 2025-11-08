@@ -1,0 +1,39 @@
+name: Factory Reset Synced Content 
+
+on:
+  workflow_dispatch:
+
+jobs:
+  reset:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Target Repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ secrets.TARGET_BRANCH }}
+          token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: 2. Set Git Author
+        run: |
+          echo " Setting the author identity locally "
+          git config user.name 'ZenoOps'
+          git config user.email 'kyawsoe.thet27@gmail.com'
+          
+      - name: 3. Remove Synced Content
+        run: |
+          echo "Removing the synced content from the rspective cloned folders"
+          rm -rf ./repo-a-content/
+          rm -rf ./repo-b-content/
+
+      - name: 4. Commit and Push the Reset
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "✅ No changes to commit. Folders were already empty."
+          else
+            echo "Committing factory reset..."
+            git commit -m "Automated: Factory Reset - Removing all synced content"
+            git push origin ${{ secrets.TARGET_BRANCH }}
+            echo "🚀 Factory reset complete."
+          fi
