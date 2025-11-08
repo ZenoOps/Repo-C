@@ -16,14 +16,13 @@ jobs:
     # Define the branch you want to merge/push TO
     # IMPORTANT: This workflow must check out this branch
     # and push back to it.
-    vars:
-      TARGET_BRANCH: 'main' 
+
     steps:
       - name: 1. Checkout the mono repo (Repo-C)
         uses: actions/checkout@v4
         with:
           # Check out the branch we intend to push to
-          ref: ${{ vars.TARGET_BRANCH }}
+          ref: ${{ secrets.TARGET_BRANCH }}
           # We need a PAT with 'repo' scope to push back
           # GITHUB_TOKEN will not work for this push
           token: ${{ secrets.ACCESS_TOKEN }} 
@@ -58,6 +57,6 @@ jobs:
           else
             echo "Changes detected. Committing and pushing..."
             git commit -m "Automated: Sync content from source repos"
-            git push origin ${{ vars.TARGET_BRANCH }}
+            git push origin ${{ secrets.TARGET_BRANCH }}
             echo "🚀 Changes pushed successfully."
           fi
