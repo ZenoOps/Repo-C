@@ -12,10 +12,8 @@ on:
 jobs:
   sync-and-merge:
     runs-on: ubuntu-latest
-    
-    # Define the branch you want to merge/push TO
-    # IMPORTANT: This workflow must check out this branch
-    # and push back to it.
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'MAIN' }}
 
     steps:
       - name: 1. Checkout the mono repo (Repo-C)
@@ -51,7 +49,7 @@ jobs:
           
           echo " Removing the .git folder tagged along during the checking out process "
           rm -rf ./repo-a-content/.git
-          # rm -rf ./repo-b-content/.git
+          rm -rf ./repo-b-content/.git
           
           echo " Adding the respective folders to push "
           git add ./repo-a-content/ ./repo-b-content/
