@@ -1,0 +1,63 @@
+
+name: Sync Source Repositories
+
+# This workflow is triggered by an API event, not a push
+on:
+  repository_dispatch:
+    types: [source-repo-updated] # A custom name for our event
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync-and-merge:
+    runs-on: ubuntu-latest
+    
+    # Define the branch you want to merge/push TO
+    # IMPORTANT: This workflow must check out this branch
+    # and push back to it.
+    vars:
+      TARGET_BRANCH: 'main' 
+    steps:
+      - name: 1. Checkout the mono repo (Repo-C)
+        uses: actions/checkout@v4
+        with:
+          # Check out the branch we intend to push to
+          ref: ${{ vars.TARGET_BRANCH }}
+          # We need a PAT with 'repo' scope to push back
+          # GITHUB_TOKEN will not work for this push
+          token: ${{ secrets.ACCESS_TOKEN }} 
+
+      - name: 2. Checkout Repo-A (Source repo)
+        uses: actions/checkout@v4
+        with:
+          repository: ZenoOps/Repo-A # <--- name of the source repository
+          # Use the same PAT to access the private repo
+          token: ${{ secrets.ACCESS_TOKEN }} 
+          # Clone Repo-A's content into a subfolder named 'repo-a-content'
+          path: 'repo-a-content'  
+
+      - name: 3. Checkout Repo-B (Source repo)
+        uses: actions/checkout@v4
+        with:
+          repository: ZenoOps/Repo-B # <--- name of the source repository
+          token: ${{ secrets.ACCESS_TOKEN }}
+          path: 'repo-b-content'
+
+      - name: 4. Commit and Push Changes
+        run: |
+          # git config --global user.name 'GitHub Actions Bot'
+          # git config --global user.email 'bot@github.com'
+          
+          # Add all changes from the subfolders
+          git add ./repo-a-content/ ./repo-b-content/
+          
+          # Check if there are any changes to commit
+          if git diff --staged --quiet; then
+            echo "✅ No changes detected from source repos. Exiting."
+          else
+            echo "Changes detected. Committing and pushing..."
+            git commit -m "Automated: Sync content from source repos"
+            git push origin ${{ vars.TARGET_BRANCH }}
+            echo "🚀 Changes pushed successfully."
+          fi
