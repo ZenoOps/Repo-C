@@ -8,6 +8,8 @@ on:
 jobs:
   trigger:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'MAIN' }}
     steps:
       - name: Send dispatch event to Repo-C
         uses: peter-evans/repository-dispatch@v3
