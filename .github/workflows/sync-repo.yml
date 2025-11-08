@@ -45,18 +45,23 @@ jobs:
 
       - name: 4. Commit and Push Changes
         run: |
-          # git config --global user.name 'GitHub Actions Bot'
-          # git config --global user.email 'bot@github.com'
+          echo " Setting the author identity locally "
+          git config user.name 'ZenoOps'
+          git config user.email 'kyawsoe.thet27@gmail.com'
           
-          # Add all changes from the subfolders
+          echo " Removing the .git folder tagged along during the checking out process "
+          rm -rf ./repo-a-content/.git
+          # rm -rf ./repo-b-content/.git
+          
+          echo " Adding the respective folders to push "
           git add ./repo-a-content/ ./repo-b-content/
-          
-          # Check if there are any changes to commit
+
+          echo " checking if there are any changes to push "
           if git diff --staged --quiet; then
             echo "✅ No changes detected from source repos. Exiting."
           else
             echo "Changes detected. Committing and pushing..."
             git commit -m "Automated: Sync content from source repos"
-            git push origin ${{ secrets.TARGET_BRANCH }}
+            git push origin ${{ vars.TARGET_BRANCH }}
             echo "🚀 Changes pushed successfully."
           fi
