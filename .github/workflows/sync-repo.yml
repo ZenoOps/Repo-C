@@ -13,7 +13,7 @@ jobs:
   sync-and-merge:
     runs-on: ubuntu-latest
     environment:
-      name: ${{ github.ref == 'refs/heads/main' && 'MAIN' }}
+      name: ${{ github.ref == 'refs/heads/ubstable-release' && 'MAIN' }}
 
     steps:
       - name: 1. Checkout the mono repo (Repo-C)
@@ -25,21 +25,21 @@ jobs:
           # GITHUB_TOKEN will not work for this push
           token: ${{ secrets.ACCESS_TOKEN }} 
 
-      - name: 2. Checkout Repo-A (Source repo)
+      - name: 2. Checkout agentric-unstructured-ui (Source repo)
         uses: actions/checkout@v4
         with:
-          repository: ZenoOps/Repo-A # <--- name of the source repository
+          repository: ZenoOps/unstructured-frontend #name of the source repository
           # Use the same PAT to access the private repo
           token: ${{ secrets.ACCESS_TOKEN }} 
-          # Clone Repo-A's content into a subfolder named 'repo-a-content'
-          path: 'repo-a-content'  
+          # Clone source repo's contents into a subfolder named 'agentric-unstructured-ui'
+          path: 'agentric-unstructured-ui'  
 
-      - name: 3. Checkout Repo-B (Source repo)
+      - name: 3. Checkout agentric-unstructured (Source repo)
         uses: actions/checkout@v4
         with:
-          repository: ZenoOps/Repo-B # <--- name of the source repository
+          repository: ZenoOps/unstructured_backend #name of the source repository
           token: ${{ secrets.ACCESS_TOKEN }}
-          path: 'repo-b-content'
+          path: 'agentric-unstructured'
 
       - name: 4. Commit and Push Changes
         run: |
@@ -48,11 +48,11 @@ jobs:
           git config user.email 'kyawsoe.thet27@gmail.com'
           
           echo " Removing the .git folder tagged along during the checking out process "
-          rm -rf ./repo-a-content/.git
-          rm -rf ./repo-b-content/.git
+          rm -rf ./agentric-unstructured-ui/.git
+          rm -rf ./agentric-unstructured/.git
           
           echo " Adding the respective folders to push "
-          git add ./repo-a-content/ ./repo-b-content/
+          git add ./agentric-unstructured-ui/ ./agentric-unstructured/
 
           echo " checking if there are any changes to push "
           if git diff --staged --quiet; then
