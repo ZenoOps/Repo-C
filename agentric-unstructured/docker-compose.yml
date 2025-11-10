@@ -1,0 +1,178 @@
+services:
+  fluentbit:
+    hostname: fluentbit
+    image: fluent/fluent-bit:latest
+    volumes:
+      - ./deploy/fluentbit/parsers.conf:/fluent-bit/etc/parsers.conf
+      - ./deploy/fluentbit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+    command: ["-c", "/fluent-bit/etc/fluent-bit.conf"]
+    ports:
+      - "0.0.0.0:24224:24224" # If you use the forward input plugin for other services
+    attach: false
+
+  cache:
+    image: valkey/valkey:latest
+    ports:
+      - "26379:6379"
+    hostname: cache
+    command: redis-server --appendonly yes
+    volumes:
+      - cache-data:/data
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    attach: false
+  db:
+    container_name: agentric-db
+    image: postgres:17
+    ports:
+      - "127.0.0.1:15432:5432"
+    hostname: db
+    attach: false
+    environment:
+      POSTGRES_PASSWORD: "agentric"
+      POSTGRES_USER: "agentric"
+      POSTGRES_DB: "agentric"
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: unless-stopped
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224 # Connect to the Fluentd service
+        fluentd-async: "true"
+        tag: app-db # Optional: Tag for logs in Fluentd
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "agentric"]
+      interval: 2s
+      timeout: 3s
+      retries: 40
+    depends_on: 
+      fluentbit:
+        condition: service_started
+  app:
+    build:
+      context: .
+      dockerfile: deploy/docker/dev/Dockerfile
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+      fluentbit:
+        condition: service_started
+    ports:
+      - "8022:8000"
+    environment:
+      VITE_USE_SERVER_LIFESPAN: "false" # true if ssr or separate service
+      SAQ_USE_SERVER_LIFESPAN: "false"
+    env_file:
+      - .env.docker   
+    tty: true
+    volumes:
+      - ./src:/workspace/agentric/src
+      - ./team_states:/workspace/agentric/team_states
+      - ./schema:/workspace/agentric/schema
+      - ./templates:/workspace/agentric/templates
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224 # Connect to the Fluentd service
+        tag: app-backend # Optional: Tag for logs in Fluentd
+  worker:
+    build:
+      context: .
+      dockerfile: deploy/docker/run/Dockerfile
+    command: litestar workers run
+    restart: unless-stopped
+    tty: true
+
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+      fluentbit:
+        condition: service_started
+    env_file:
+      - .env.docker
+    volumes:
+      - ./schema:/workspace/agentric/schema
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224 # Connect to the Fluentd service
+        tag: worker-backend # Optional: Tag for logs in Fluentd
+  migrator:
+    build:
+      context: .
+      dockerfile: deploy/docker/run/Dockerfile
+    restart: "no"
+    command: litestar database upgrade --no-prompt
+    env_file:
+      - .env.docker
+
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+      fluentbit:
+        condition: service_started
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224 # Connect to the Fluentd service
+        tag: app-migrations # Optional: Tag for logs in Fluentd
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    network_mode: "host"
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./deploy/frontend/static:/static
+      - ./deploy/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data  # Mounts a local directory named 'caddy_data'
+    env_file:
+          - .env.docker
+
+  minio:
+    image: minio/minio:latest
+    container_name: agentric-minio
+    hostname: minio
+    # ports:
+    #   - "9000:9000" 
+    #   - "9002:9002" 
+    command: server /data --console-address ":9002"
+    volumes:
+      - minio-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    env_file:
+      - .env.docker
+
+volumes:
+  db: {}
+  cache-data: {}
+  caddy_data: {}
+  minio-data: {}

@@ -1,0 +1,51 @@
+{$DOMAIN:localhost} {
+	handle /schema/* {
+		reverse_proxy http://localhost:8022
+	}
+	handle /api/* {
+		reverse_proxy http://localhost:8022 {
+			flush_interval 800
+			# request_buffers    <size>
+			# response_buffers   <size>
+			# stream_timeout     <duration>
+			# stream_close_delay <duration>	
+			
+		}
+	}
+	handle /vendor/* {
+		reverse_proxy http://localhost:8022
+	}
+	handle /health {
+		reverse_proxy http://localhost:8022
+	}
+
+	handle /* {
+		reverse_proxy http://localhost:4173
+	}
+}
+
+:80 {
+	handle /schema/* {
+		reverse_proxy http://localhost:8022
+	}
+	handle /api/* {
+		reverse_proxy http://localhost:8022 {
+			flush_interval 800
+			# request_buffers    <size>
+			# response_buffers   <size>
+			# stream_timeout     <duration>
+			# stream_close_delay <duration>	
+			
+		}
+	}
+	handle /vendor/* {
+		reverse_proxy http://localhost:8022
+	}
+	handle /health {
+		reverse_proxy http://localhost:8022
+	}
+
+	handle /* {
+		reverse_proxy http://localhost:4173
+	}
+}

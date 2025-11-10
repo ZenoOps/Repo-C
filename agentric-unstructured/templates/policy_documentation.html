@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Policy Documentation – Request {{ request_id }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f6f8;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2a6ebb;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 6px;
+      margin-top: 32px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 24px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: auto;
+      margin-top: 12px;
+    }
+    th, td {
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f0f4f8;
+      text-align: left;
+      font-weight: 600;
+    }
+    tr:nth-child(even) {
+      background-color: #fafbfc;
+    }
+    .narrative {
+      border-left: 4px solid #2a6ebb;
+      background: #f9fbfc;
+      padding: 16px;
+      margin: 16px 0;
+      font-style: italic;
+    }
+    .footer {
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+      margin-top: 32px;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>1. Policy Details</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Broker Name</th><td>{{ policy_details.policy_detail.broker_name }}</td></tr>
+        <tr><th>Insured Name</th><td>{{ policy_details.policy_detail.insured_name }}</td></tr>
+        <tr><th>Inception Date</th><td>{{ policy_details.policy_detail.inception_date }}</td></tr>
+        <tr><th>Expiry Date</th><td>{{ policy_details.policy_detail.expiry_date }}</td></tr>
+        <tr><th>Segment</th><td>{{ policy_details.policy_detail.segment or '—' }}</td></tr>
+      </table>
+    </div>
+
+    <h2>2. Property Construction</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Building Value</th><td>${{ policy_details.risk.property_addresses.property_construction_details.building }}</td></tr>
+        <tr><th>Contents/Stock</th><td>${{ policy_details.risk.property_addresses.property_construction_details.contents_stock_in_trade }}</td></tr>
+        <tr><th>Wall</th><td>{{ policy_details.risk.property_addresses.property_construction_details.construction_wall }}</td></tr>
+        <tr><th>Roof</th><td>{{ policy_details.risk.property_addresses.property_construction_details.construction_roof }}</td></tr>
+        <tr><th>Floor</th><td>{{ policy_details.risk.property_addresses.property_construction_details.construction_floor }}</td></tr>
+        <tr><th>Frame</th><td>{{ policy_details.risk.property_addresses.property_construction_details.construction_frame }}</td></tr>
+        <tr><th>Year Built</th><td>{{ policy_details.risk.property_addresses.property_construction_details.construction_year_built }}</td></tr>
+        <tr><th>Sprinkler System</th><td>{{ policy_details.risk.property_addresses.property_construction_details.fire_protection }} ({{ policy_details.risk.property_addresses.property_construction_details.sprinkler_effectiveness }})</td></tr>
+        <tr><th>Fire Alarm</th><td>{{ policy_details.risk.property_addresses.property_construction_details.fire_alarm_effectiveness }}</td></tr>
+        <tr><th>Security</th><td>{{ policy_details.risk.property_addresses.property_construction_details.security }}</td></tr>
+        <tr><th>Occupancy</th><td>{{ policy_details.risk.property_addresses.property_construction_details.occupancy }}</td></tr>
+        <tr><th>Storeys</th><td>{{ policy_details.risk.property_addresses.property_construction_details.number_of_storeys }}</td></tr>
+      </table>
+    </div>
+
+    <h2>3. Location Coverage</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Liability Limit</th><td>${{ policy_details.risk.property_addresses.location_coverage.limit_of_liability }}</td></tr>
+        <tr><th>Accidental Damage</th><td>${{ policy_details.risk.property_addresses.location_coverage.accidental_damage }}</td></tr>
+        <tr><th>Burglary & Theft</th><td>${{ policy_details.risk.property_addresses.location_coverage.burglary_theft }}</td></tr>
+      </table>
+    </div>
+
+    <h2>4. Policy Coverage</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Section 1</th><td>${{ policy_details.policy_coverage.section_1_material_loss_or_damage }}</td></tr>
+        <tr><th>Section 2</th><td>${{ policy_details.policy_coverage.section_2_consequential_loss_business_interruption }}</td></tr>
+        <tr><th>Combined Limit</th><td>${{ policy_details.policy_coverage.combined_limit }}</td></tr>
+        <tr><th>Insurer Share</th><td>{{ policy_details.policy_coverage.insurer_share }}%</td></tr>
+      </table>
+    </div>
+
+    <h2>5. Quote Summary</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>Risk Score</th><td>{{ policy_details.quote_summary.risk_score }}</td></tr>
+        <tr><th>Premium</th><td>${{ policy_details.quote_summary.premium_amount }}</td></tr>
+        <tr><th>Description</th><td>{{ policy_details.quote_summary.premium_description }}</td></tr>
+        <tr><th>Coverage Amount</th><td>${{ policy_details.quote_summary.coverage_amount }}</td></tr>
+   <tr>
+  <th>Deductible Amounts</th>
+  <td>
+    <ul style="list-style: none; margin: 0; padding: 0;">
+      {% for name, amount in policy_details.quote_summary.deductible_amounts.items() %}
+        <li>
+          {{ name }}: ${{ "{:,.2f}".format(amount) }}
+        </li>
+      {% else %}
+        <li>No deductibles available</li>
+      {% endfor %}
+    </ul>
+  </td>
+</tr>
+      </table>
+    </div>
+
+    <div class="narrative">
+    {{ policy_details.quote_summary.policy_coverage_narrative }}
+    </div>
+
+    <p>Best regards,<br>{{ from_email }}</p>
+
+    <div class="footer">
+      <p>© Zurich Travel Insurance Group - Request {{ request_id }}</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - prod
+      - develop
+      - staging
+      - trunk
+      - uat
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'DEV' || (github.ref == 'refs/heads/uat' && 'UAT' || 'UNSTABLE') }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      # - name: Trigger backend deployment
+      #   uses: convictional/trigger-workflow-and-wait@v1.6.1
+      #   with:
+      #     owner: AgentricAI
+      #     repo: agentic-claims-backend
+      #     github_token: ${{ secrets.ACCESS_TOKEN }}
+      #     workflow_file_name: deploy-ec2.yml 
+      #     wait_interval: 10
+      #     propagate_failure: true
+      #     trigger_workflow: true
+      # - name: Trigger backend deployment
+      #   env:
+      #     GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      #   run: |
+      #     gh workflow run deploy-ec2.yml \
+      #       --repo AgentricAI/agentic-unstructured      
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-southeast-2
+
+      - name: Download Terraform state
+        run: |
+          aws s3 cp s3://agentric-tf/terraform/${{ secrets.TF_VAR_project_name }}-${{ secrets.TF_VAR_env_name }}.tfstate . --region ap-southeast-2
+
+      - name: Extract public IP
+        id: extract-ip
+        run: |
+          PUBLIC_IP=$(jq -r '.outputs.instance_unstructured_public_ip.value' ${{ secrets.TF_VAR_project_name }}-${{ secrets.TF_VAR_env_name }}.tfstate)
+          echo "EC2_PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan $EC2_PUBLIC_IP >> ~/.ssh/known_hosts
+
+      - name: Deploy with Docker
+        run: |
+          echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" # For debugging
+          echo "PUBLIC_API_URL=${{ secrets.BACKEND_HOST }}" # For debugging
+          echo -e "PUBLIC_API_URL=https://${{ secrets.BACKEND_HOST }}\n" >> .env 
+          echo -e "PUBLIC_MARKER_PROJECT_ID=${{ secrets.MARKER_PROJECT_ID }}\n" >> .env 
+          ssh ubuntu@$EC2_PUBLIC_IP 'sudo rm -rf /home/ubuntu/agentric_ui'
+          tar --exclude=".git" --exclude="infra" -cf - . | ssh ubuntu@$EC2_PUBLIC_IP "sudo mkdir -p /home/ubuntu/agentric_ui && sudo tar -xf - -C /home/ubuntu/agentric_ui"
+          ssh ubuntu@$EC2_PUBLIC_IP << EOF
+            # Navigate to the project directory and deploy
+            cd /home/ubuntu/agentric_ui
+            sudo docker compose down --remove-orphans
+            sudo docker compose up -d --build
+          EOF
+        
+

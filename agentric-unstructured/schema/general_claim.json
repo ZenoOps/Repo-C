@@ -1,0 +1,259 @@
+{
+    "title": "Insurance Claim Request",
+    "description": "Schema for extracting and analyzing an insurance claim request.",
+    "type": "object",
+    "properties": {
+        "status": {
+            "description": "The final decision on the claim based on policy analysis.",
+            "type": "string",
+            "enum": [
+                "APPROVED",
+                "DECLINED",
+                "PARTIAL_PAYMENT",
+                "MISSING",
+                "CLOSED",
+                "PAID"
+            ]
+        },
+        "missing_documents": {
+            "description": "A list of documents required for claim approval that were not provided.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "generated_decision_summary": {
+            "description": "A concise, AI-generated summary of the claim decision.",
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "is_medical_claim": {
+            "description": "True if the underlying reason for the claim is medical (e.g., injury, sickness).",
+            "type": "boolean"
+        },
+        "decision_reason": {
+            "description": "A detailed explanation for the claim decision, often citing policy clauses.",
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "payment_status": {
+            "description": "The status of the payment for the claim.",
+            "type": [
+                "string",
+                "null"
+            ],
+            "enum": [
+                "PAYABLE",
+                "NOT_PAYABLE",
+                "NOT_PAYABLE",
+                null
+            ]
+        },
+        "payment_reason": {
+            "description": "The reason for the payment status (e.g., 'Claim approved and paid', 'Claim denied').",
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "claim_info": {
+            "type": "object",
+            "properties": {
+                "claim_number": {
+                    "description": "The claim number assigned by the insurance agency.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "approved_amount": {
+                    "description": "The final amount approved for reimbursement as a string.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "total_claimed_amount": {
+                    "description": "The total amount claimed.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "type_of_claim": {
+                    "description": "The type of claim filed (e.g., 'Trip Cancellation', 'Baggage Delay').",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "requested_reimbursement_amount": {
+                    "description": "The total amount the client is requesting for reimbursement.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "insurance_agency_name": {
+                    "description": "The name of the insurance provider or administrator (e.g., 'AIG', 'Travel Guard').",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "premium_amount": {
+                    "description": "The cost of the insurance policy premium.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "claim_number",
+                "type_of_claim",
+                "requested_reimbursement_amount"
+            ]
+        },
+        "trip_info": {
+            "type": "object",
+            "properties": {
+                "trip_cost": {
+                    "description": "The total cost of the trip or the insured portion of the trip.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "trip_start_date": {
+                    "description": "The scheduled start date of the trip in ISO 8601 format.",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "format": "date-time"
+                },
+                "trip_return_date": {
+                    "description": "The scheduled return date of the trip in ISO 8601 format.",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "format": "date-time"
+                },
+                "destination": {
+                    "description": "The primary destination of the trip.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            }
+        },
+        "client_info": {
+            "type": "object",
+            "properties": {
+                "client_name": {
+                    "description": "The full name of the claimant.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "client_email_address": {
+                    "description": "The email address of the claimant.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "client_phone_number": {
+                    "description": "The phone number of the claimant.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "client_post_code": {
+                    "description": "The postal or ZIP code of the claimant.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "description": {
+                    "description": "The claimant's description of the event that led to the claim.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            }
+        },
+        "policy_info": {
+            "type": "object",
+            "properties": {
+                "policy_holder": {
+                    "description": "The name of the person who holds the insurance policy.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "policy_number": {
+                    "description": "The unique number identifying the insurance policy.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "policy_effective_date": {
+                    "description": "The date the policy coverage begins, in ISO 8601 format.",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "format": "date-time"
+                },
+                "policy_expiration_date": {
+                    "description": "The date the policy coverage ends, in ISO 8601 format.",
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "format": "date-time"
+                },
+                "maximum_coverage_amount": {
+                    "description": "The maximum amount payable for the specific claim type.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "coverage_limits": {
+                    "description": "A summary of key coverage limits from the policy.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "policy_number"
+            ]
+        }
+    },
+    "required": [
+        "status",
+        "submission_status",
+        "is_medical_claim",
+        "claim_info",
+        "trip_info",
+        "client_info",
+        "policy_info"
+    ]
+}

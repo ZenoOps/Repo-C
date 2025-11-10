@@ -1,0 +1,27 @@
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8022/api/auth/login
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  email: customer@gmail.com
+  password: customer
+}
+
+script:post-response {
+  //Get token from response headers
+  const token=res.getHeader("authorization");
+  
+  //Check if token is present
+  if(token){
+    //Set token as environment variable
+    bru.setVar("userAccessToken",token.split(' ')[1]);
+  }
+}

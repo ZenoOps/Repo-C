@@ -1,0 +1,37 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = ssh://git@git.hexcode.tech:3322/hexcode-core/agentric-hkt.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+	vscode-merge-base = origin/main
+[pull]
+	rebase = false
+[branch "handsoff-swarm-agent"]
+	vscode-merge-base = origin/main
+	remote = origin
+	merge = refs/heads/handsoff-swarm-agent
+[branch "travel-insurance"]
+	remote = origin
+	merge = refs/heads/travel-insurance
+	vscode-merge-base = origin/travel-insurance
+[branch "optel"]
+	vscode-merge-base = origin/travel-insurance
+	remote = agentric
+	merge = refs/heads/optel
+[remote "agentric"]
+	url = ssh://git@agentric_github/AgentricAI/agentic-claims-backend.git
+	fetch = +refs/heads/*:refs/remotes/agentric/*
+[branch "dev"]
+	vscode-merge-base = agentric/optel
+	remote = origin
+	merge = refs/heads/dev
+[branch "server-stable"]
+	vscode-merge-base = origin/main
+	remote = origin
+	merge = refs/heads/server-stable

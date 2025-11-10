@@ -1,0 +1,70 @@
+name: Reset DB and Restart Docker
+on:
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: DEV
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2
+
+    - name: Initialize Terraform in ./infra
+      working-directory: ./infra
+      run: terraform init 
+
+    - name: Apply Terraform in ./infra
+      working-directory: ./infra
+      run: terraform apply -auto-approve 
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Configure SSH
+      run: |
+        EC2_PUBLIC_IP=$(terraform -chdir=./infra output -raw instance_public_ip)
+        mkdir -p ~/.ssh
+        ssh-keyscan $EC2_PUBLIC_IP >> ~/.ssh/known_hosts
+
+    - name: Deploy with Docker
+      run: |
+        EC2_PUBLIC_IP=$(terraform -chdir=./infra output -raw instance_public_ip)
+        echo $EC2_PUBLIC_IP
+        ssh ubuntu@$EC2_PUBLIC_IP << EOF
+          sudo apt-get update
+          sudo apt-get install -y ca-certificates curl
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+          # Add the repository to Apt sources:
+          echo \
+            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+            $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt-get update
+          
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin curl
+          sudo systemctl enable docker.service --now
+          sudo systemctl enable containerd.service --now
+          sudo usermod -aG docker ubuntu
+
+          newgrp docker
+
+          # Navigate to the project directory and deploy
+          cd /home/ubuntu/agentric_backend
+          sudo docker compose down db app migrator cache -v
+          sudo docker compose down --remove-orphans
+          sudo docker compose up -d --build
+        EOF
+      

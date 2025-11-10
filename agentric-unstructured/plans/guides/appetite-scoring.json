@@ -1,0 +1,229 @@
+{
+    "industry_criteria": [
+      {
+        "category": "Real estate and business services",
+        "sub_industry": "Commercial real estate, financial investors and large building developers",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Real estate and business services",
+        "sub_industry": "Clerical, technical and business services",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 0,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Real estate and business services",
+        "sub_industry": "Local council and state government assets",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 0,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Real estate and business services",
+        "sub_industry": "Health centres, hospitals and dental services",
+        "established_and_financially_stable": 1,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Real estate and business services",
+        "sub_industry": "Community and aged care facilities",
+        "established_and_financially_stable": 1,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Manufacturing",
+        "sub_industry": "Wine, drink and beverage manufacturing",
+        "established_and_financially_stable": 1,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Manufacturing",
+        "sub_industry": "Metal fabrication and product manufacturing",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Manufacturing",
+        "sub_industry": "Electrical equipment manufacturing",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 1,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Manufacturing",
+        "sub_industry": "Machinery manufacturing",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 1,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Manufacturing",
+        "sub_industry": "Food manufacturing excluding EPS/direct heat",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Manufacturing",
+        "sub_industry": "Brick, stone, concrete & plaster manufacturing",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 0,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Retailers",
+        "sub_industry": "Shopping centres and precincts",
+        "established_and_financially_stable": 1,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Retailers",
+        "sub_industry": "Grocery store and liquor retailers",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Retailers",
+        "sub_industry": "Household goods retailers",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 1,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Retailers",
+        "sub_industry": "Pharmaceutical and personal healthcare retailers",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 0,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Retailers",
+        "sub_industry": "Home improvement and hardware stores",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 1,
+        "proactively_risk_managed_and_tested_bcp": 0,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Retailers",
+        "sub_industry": "Clothing and footwear retailers",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Retailers",
+        "sub_industry": "Printing",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 1,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Wholesalers",
+        "sub_industry": "Household and electrical wholesalers",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 1,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Wholesalers",
+        "sub_industry": "Clothing and footwear vendors",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 1,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Wholesalers",
+        "sub_industry": "Machinery wholesalers",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 0,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Hospitality, sports and leisure",
+        "sub_industry": "Modern urban accommodation and hotels",
+        "established_and_financially_stable": 1,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Hospitality, sports and leisure",
+        "sub_industry": "Restaurants, cafes and hospitality",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      },
+      {
+        "category": "Hospitality, sports and leisure",
+        "sub_industry": "Gyms and leisure centres",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 0,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 0,
+        "engaged_in_legal_and_regulatory_landscape": 0
+      },
+      {
+        "category": "Hospitality, sports and leisure",
+        "sub_industry": "Modern sports stadia",
+        "established_and_financially_stable": 0,
+        "purpose_built_premises": 1,
+        "sprinkler_protected": 0,
+        "proactively_risk_managed_and_tested_bcp": 1,
+        "engaged_in_legal_and_regulatory_landscape": 1
+      }
+    ]
+  }

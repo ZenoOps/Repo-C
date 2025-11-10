@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/policy-broker.schema.json",
+  "title": "Policy and Broker Information",
+  "type": "object",
+  "properties": {
+    "policy_effective_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The inception (start) date of the policy."
+    },
+    "policy_expiration_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The expiry (end) date of the policy."
+    },
+    "policy_number":{
+      "type": "string",
+      "description": "Policy Number of the Insurance Company"
+    },
+    "policy_holder":{
+      "type": "string",
+      "maxLength": 50,
+      "description": "Name of the policy holder."
+    },
+    "broker_name": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "Name of the broker."
+    },
+    "broker_email": {
+      "type": "string",
+      "format": "email",
+      "maxLength": 150,
+      "description": "Email address of the broker."
+    },
+    "broker_commission": {
+      "type": "string",
+      "maxLength": 50,
+      "description": "Commission details or rate for the broker."
+    },
+    "trip_details": {
+      "type": "object",
+      "properties": {
+        "departure_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The departure/start date of the flight ticket."
+        },
+        "return_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The return/end date of the flight ticket."
+        },
+        "destination": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Destination of the trip."
+        }
+
+      },
+      "required": ["departure_date", "return_date", "destination"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "trip_details",
+    "policy_effective_date",
+    "policy_expiration_date",
+    "policy_holder",
+    "broker_name",
+    "broker_email",
+    "broker_commission"
+  ],
+  "additionalProperties": false
+}

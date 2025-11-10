@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missing Files for Zurich Travel Insurance</title>
+    <style>
+        body {
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            padding: 16px;
+        }
+ 
+ 
+        .content {
+            padding: 20px 0;
+        }
+        .missing-items-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 20px;
+        }
+        .missing-items-list li {
+            margin-bottom: 10px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777777;
+            padding-top: 20px;
+            border-top: 1px solid #eeeeee;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+ 
+        <div class="content">
+            <p>Hello {{client_name}},</p>
+            <p>
+               Thank you for your message. We have received your documents and will be adding them to your file. We are almost ready to begin your claim, however we are still missing some documents. Can you provide us with:
+
+            </p>
+ 
+            <ul class="missing-items-list">
+                {% for file_name in missing_files %}
+                    <li>
+                        <strong>{{ file_name }}</strong> 
+                    </li>
+                {% endfor %}
+            </ul>
+            <br>
+            <p>
+                Providing this information is greatly appreciated as it will enable us to better assist you during this time.
+            </p>
+            <p>Thank you!</p>
+            <br>
+            <p>
+                Best regards,<br>
+                The Zurich Travel Insurance
+            </p>
+        </div>
+        <div class="footer">
+            <p>This is an automated notification regarding application #{{ request_id }}.</p>
+            <p>{{from_email}}</p>
+            <p>© Zurich Insurance Group</p>
+        </div>
+    </div>
+</body>
+</html>

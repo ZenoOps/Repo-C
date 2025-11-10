@@ -1,0 +1,19 @@
+name: Trigger Sync workflow
+
+on:
+  push:
+    branches:
+      - main  # Or whatever your source branch is
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'MAIN' }}
+    steps:
+      - name: Send dispatch event to Repo-C
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          repository: ZenoOps/Repo-C # Path to your aggregator repo
+          event-type: source-repo-updated

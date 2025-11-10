@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Insurance Claim Approved</title>
+    <style>
+        body {
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            padding: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .claim-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-left: 4px solid #28a745;
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            display: inline-block;
+            min-width: 150px;
+        }
+
+        .contact-info {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+
+        <div class="section">
+            <div class="section-title">Claim Decision Notice</div>
+
+            <p>Dear {{client_name}},</p>
+
+            <div class="claim-info">
+                <div class="info-row">
+                    <span class="info-label">Policy Number:</span> {{policy_number}}
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Claim Number:</span> {{claim_number}}
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Decision Date:</span> {{decision_date.strftime("%B %d, %Y")}}
+                </div>
+            </div>
+
+            <div class="section-title"><strong>Claim Approved - PARTIAL PAYMENT</strong></div>
+            <p>Your travel medical insurance claim has been reviewed and approved for partial reimbursement</p>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Claim Summary:</div>
+            <div class="info-row">
+                <span class="info-label">Claim Type:</span> {{claim_type}}
+            </div>
+            <div class="info-row">
+                <span class="info-label">Total Submitted:</span> <span class="amount">${{total_requested_amount}}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Approved Amount:</span> <span class="amount">${{approved_amount}}</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Your Payment:</span> <span class="amount">[YOUR_PAYMENT]</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">What We're Covering:</div>
+            <div style="margin-left: 20px;">
+                <div class="info-row"> Emergency room treatment:$ [SAMPLE_AMOUNT]</div>
+                <div class="info-row"> Less your deductible: -$ [SAMPLE_AMOUNT]</div>
+            </div>
+        </div>
+ 
+        <div class="section">
+            <strong>Understanding Your Coverage</strong>
+
+            Your Basic Travel Medical policy provided essential coverage for your emergency. For future trips, you might
+            consider our Comprehensive plan which includes room upgrade coverage and enhanced prescription benefits.
+
+        </div>
+
+        <div>
+            <strong>Questions or Appeals?</strong>
+            f you'd like to discuss this decision, please contact our Claims Review department at 1-800-555-CARE within 60 days.
+
+        </div>
+
+        <div class="contact-info">
+            <div class="section-title">We hope you're feeling better!</div>
+            <p style="margin: 10px 0 0 0;"><strong>SecureTravel Insurance Claims Team</strong></p>
+        </div>
+ 
+    </div>
+</body>
+
+</html>

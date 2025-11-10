@@ -1,0 +1,67 @@
+ 
+INTERNAL USE ONLY 
+Quick Declines 
+Objective 
+To document the pre-defined quick decline rules 
+Criteria for Quick Declines 
+No Quick Decline Business 
+Rule Comms 
+1 Backdating - Inception date is 
+before Quote Date 
+Decline Email to be sent: 
+“Thank you for your quotation submission for the above-
+mentioned customer. 
+ We advise that Zurich will not be offering a quotation in 
+this instance due to the following reason: 
+The policy inception date is prior to the current date. 
+Thank you for the opportunity to review and we look 
+forward to considering other opportunities in the future. 
+Should you like to further discuss, please contact your 
+local Zurich property underwriter.” 
+2 Total Declared Values < $5M 
+Decline Email to be sent: 
+“Thank you for your quotation submission for the above-
+mentioned customer. 
+We advise that Zurich will not be offering a quotation in 
+this instance due to the following reason: 
+The combined Declared Values for Section(s) 1 and 2 is 
+below our required minimum values for this product. 
+ \n 
+INTERNAL USE ONLY 
+3 
+For Single Location 
+Submissions Only 
+Post Code is in Knockout List 
+Use the following sample 
+post codes: 
+2060 
+3000 
+4000 
+ 
+Decline Email to be sent: 
+“Thank you for your quotation submission for the above-
+mentioned customer. 
+ We advise that Zurich will not be offering a quotation in 
+this instance due to the following reason: 
+The geographical location of the declared asset is outside 
+our current underwriting appetite. 
+ Thank you for the opportunity to review and we look 
+forward to considering other opportunities in the future. 
+Should you like to further discuss, please contact your 
+local Zurich property underwriter.” 
+4 
+For Single Location 
+Submissions Only 
+Construction type is Wood 
+Decline Email to be sent: 
+“Thank you for your quotation submission for the above-
+mentioned customer 
+We advise that Zurich will not be offering a quotation in 
+this instance due to the following reason: 
+The construction type of the declared asset is not within 
+Zurich risk appetite. 
+ Thank you for the opportunity to review and we look 
+forward to considering other opportunities in the future. 
+Should you like to further discuss, please contact your 
+local Zurich property underwriter” 
+ \n

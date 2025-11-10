@@ -1,0 +1,21 @@
+meta {
+  name: Assign Role
+  type: http
+  seq: 1
+}
+
+patch {
+  url: http://localhost:8022/users/assign/b3dc5d24-d31c-491e-b92d-dd19a1882823
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userAccessToken}}
+}
+
+body:json {
+  {
+    "roleName":"ZURICH_AGENT"
+  }
+}

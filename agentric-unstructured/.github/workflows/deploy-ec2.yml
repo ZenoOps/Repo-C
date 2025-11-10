@@ -1,0 +1,109 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - prod
+      - develop
+      - staging
+      - trunk
+  workflow_dispatch:
+    
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      # Conditionally set the environment based on the branch
+      name: ${{ github.ref == 'refs/heads/main' && 'DEV' || (github.ref == 'refs/heads/develop' && 'STAGE' || 'UNSTABLE') }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+    - name: Setup HCL
+      working-directory: ./infra
+      env:
+        ACCOUNTS_VARS: ${{ secrets.ACCOUNTS }}
+      run: |
+        cat << EOF > backend.hcl
+        bucket = "agentric-tf"
+        region = "ap-southeast-2"
+        encrypt = true
+        key = "terraform/${{ secrets.TF_VAR_project_name }}-${{ secrets.TF_VAR_env_name }}.tfstate"
+        EOF
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-southeast-2
+
+    - name: Initialize Terraform in ./infra
+      working-directory: ./infra
+      run: terraform init -backend-config="backend.hcl"
+
+    - name: Apply Terraform in ./infra
+      working-directory: ./infra
+      run: terraform apply -auto-approve
+      env:
+        TF_VAR_env_name: ${{ secrets.TF_VAR_env_name }} 
+        TF_VAR_project_name: ${{ secrets.TF_VAR_project_name }}  
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: Configure SSH
+      run: |
+        EC2_PUBLIC_IP=$(terraform -chdir=./infra output -raw instance_unstructured_public_ip)
+        mkdir -p ~/.ssh
+        ssh-keyscan $EC2_PUBLIC_IP >> ~/.ssh/known_hosts
+
+    - name: Deploy with Docker
+      env:
+        ACCOUNTS_VARS: ${{ secrets.ACCOUNTS }}
+      run: |
+        EC2_PUBLIC_IP=$(terraform -chdir=./infra output -raw instance_unstructured_public_ip)
+        echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" # For debugging
+        echo "DOMAIN=${{ secrets.BACKEND_DOMAIN }}"
+        cp .env.docker.example .env.docker
+        echo -e "\nDOMAIN=${{ secrets.BACKEND_DOMAIN }}" >> .env.docker
+        echo -e "\nAPI_BASE_URL=https://${{ secrets.BACKEND_DOMAIN }}/api" >> .env.docker
+        echo -e "\nAGENT_API_KEY=${{ secrets.AGENT_API_KEY }}" >> .env.docker
+        echo -e "\nOTEL_EXPORTER_OTLP_ENDPOINT=${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}\n" >> .env.docker
+        echo ${{ secrets.ACCOUNTS }} >> .env.docker
+        echo -e "\n" >> .env.docker
+        echo '${{ secrets.MINIO_SETTINGS }}' >> .env.docker
+        ssh ubuntu@$EC2_PUBLIC_IP 'sudo rm -rf /home/ubuntu/agentric_backend'
+        
+        tar --exclude=".git" --exclude="infra" -cf - . | ssh ubuntu@$EC2_PUBLIC_IP "sudo mkdir -p /home/ubuntu/agentric_backend && sudo tar -xf - -C /home/ubuntu/agentric_backend"
+        ssh ubuntu@$EC2_PUBLIC_IP << EOF
+          sudo apt-get update
+          sudo apt-get install -y ca-certificates curl
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+          # Add the repository to Apt sources:
+          echo \
+            "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+            $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+            sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+          sudo apt-get update
+          
+          sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin curl
+          sudo systemctl enable docker.service --now
+          sudo systemctl enable containerd.service --now
+          sudo usermod -aG docker ubuntu
+
+          newgrp docker
+
+          # Navigate to the project directory and deploy
+          cd /home/ubuntu/agentric_backend
+          sudo docker compose down migrator -v --remove-orphans
+          sudo docker compose down --remove-orphans
+          sudo docker compose up -d --build
+        EOF
+      

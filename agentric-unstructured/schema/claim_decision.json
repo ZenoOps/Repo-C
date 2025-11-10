@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/claim-audit-output.v4.schema.json",
+  "title": "Claim Audit Output (Policy-Driven, Expected Refund First, With Confidence)",
+  "type": "object",
+  "properties": {
+    "policy_limits": {
+      "type": "object",
+      "description": "Limits derived from the uploaded policy file only.",
+      "properties": {
+        "per_day_limit": { "type": ["number", "null"] },
+        "overall_cap_per_person": { "type": ["number", "null"] },
+        "overall_cap_per_trip": { "type": ["number", "null"] },
+        "minimum_delay_hours": { "type": ["number", "null"] }
+      },
+      "required": [
+        "per_day_limit",
+        "overall_cap_per_person",
+        "overall_cap_per_trip",
+        "minimum_delay_hours"
+      ],
+      "additionalProperties": false
+    },
+
+    "eligibility_window": {
+      "type": "object",
+      "description": "Derived from evidence (e.g., hotel stay, itinerary).",
+      "properties": {
+        "eligible_days": { "type": ["integer", "null"], "minimum": 0 },
+        "eligible_persons": { "type": ["integer", "null"], "minimum": 0 }
+      },
+      "required": ["eligible_days", "eligible_persons"],
+      "additionalProperties": false
+    },
+
+    "fraud_and_amount_check": {
+      "type": "object",
+      "description": "Fraud signals and amounts.",
+      "properties": {
+        "is_fraud_suspected": { "type": "boolean" },
+        "fraud_reasons": { "type": "array", "items": { "type": "string" } },
+        "claim_total": { "type": ["number", "null"] },
+        "policy_claimable_max": { "type": ["number", "null"] },
+        "within_limit": { "type": ["boolean", "null"] },
+        "delta": { "type": ["number", "null"] },
+        "capped_payout": { "type": ["number", "null"] },
+        "approved_amount": { "type": ["number", "null"] }
+      },
+      "required": [
+        "is_fraud_suspected",
+        "fraud_reasons",
+        "claim_total",
+        "policy_claimable_max",
+        "within_limit",
+        "delta",
+        "capped_payout",
+        "approved_amount"
+      ],
+      "additionalProperties": false
+    },
+    "refunds_check": {
+      "type": "object",
+      "description": "Refund perspective (from claim_data and policy cost).",
+      "properties": {
+        "expected_refund": { "type": ["number", "null"] },
+        "protection_plan_cost": { "type": ["number", "null"] },
+        "refund_net_of_premium": { "type": ["number", "null"] },
+        "matched_coverage_label": { "type": ["string", "null"] },
+        "matched_coverage_terms": { "type": ["string", "null"] }
+
+      },
+      "required": ["expected_refund", "protection_plan_cost", "refund_net_of_premium", "matched_coverage_label", "matched_coverage_terms"],
+      "additionalProperties": false
+    },
+
+    "payment_check": {
+      "type": "object",
+      "description": "Payment status and rationale.",
+      "properties": {
+        "payment_status": {
+          "type": "string",
+          "enum": ["partial_payment", "full_payment", "not_resolved", "not_known"]
+        },
+        "payment_reason": { "type": "string" }
+      },
+      "required": ["payment_status", "payment_reason"],
+      "additionalProperties": false
+    },
+
+    "premium_amount_check": {
+      "type": "object",
+      "description": "Premium amount from the policy document.",
+      "properties": {
+        "premium_amount": { "type": ["number", "null"] }
+      },
+      "required": ["premium_amount"],
+      "additionalProperties": false
+    },
+
+    "appetite": {
+      "type": "string",
+      "enum": ["approve", "decline"],
+      "description": "Approve if covered and valid, decline for fraud/missing evidence/out-of-scope."
+    },
+
+    "decision_reason": {
+      "type": "string",
+      "description": "Short reason for the final appetite."
+    },
+
+    "confidence_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence level in the final decision."
+    },
+    "summary_of_findings": { "type": "string" },
+    "case_description": { "type": "string" , "description": "Description of the whole claim case" }
+  },
+
+  "required": [
+    "policy_limits",
+    "eligibility_window",
+    "fraud_and_amount_check",
+    "refunds_check",
+    "payment_check",
+    "premium_amount_check",
+    "appetite",
+    "decision_reason",
+    "confidence_level",
+    "summary_of_findings",
+    "case_description"
+  ],
+  "additionalProperties": false
+}

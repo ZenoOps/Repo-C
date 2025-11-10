@@ -1,0 +1,93 @@
+ 
+INTERNAL USE ONLY 
+Folder & Document Naming Conventions: 
+Property & Engineering 
+ 
+ 
+Creating Customer Folders  
+1. Go to the Customers folder  
+2. Type the name of the customer to locate the customer folder:  
+a. If no customer folder exists it will be necessary to create a main customer folder 
+into which the current year needs to be added  
+b. If there IS a customer folder, however, no folder for the current year, copy the 
+year folder within the folder structure of the appropriate customer folder  
+3. Open the year folder  
+ 
+4. Copy the LOB folder and paste this into the relevant YEAR in the CUSTOMER 
+folder you are working on.  
+  
+CUSTOMER  
+- YEAR  
+- AND SUB FOLDER (AS PER THE NAMING CONVENTIONS BELOW  
+  
+ 
+ 
+ 
+ 
+ 
+ \n 
+INTERNAL USE ONLY 
+Document Naming Convention   
+ 
+1. Document Name (from table below) 
+2. Customer Name 
+3. Date yyyymmdd 
+4. Version 
+ 
+Example : 
+Aussie Company Pty Ltd 20250606 v1 
+ 
+Sub Folder  Document Type Document Naming 
+Convention   
+Correspondence          
+Broker Correspondence   Broker Corro 
+Internal Correspondence   Internal Corro  
+Letter of Appointment LOA   
+Letter of Authority   LOAuth  
+File Notes   File Notes   
+Strategy   Renewal / New Business 
+Strategy   RNL / NB Strategy   
+Information 
+Gathering               
+Renewal Slip RNL Slip   
+New Business Slip NB Slip   
+Endorsement Slip   ENDT Slip   
+Endorsement Information   ENDT Info   
+Asset Schedule Insured Values 
+Business Income Worksheet   BI Calc   
+Business Income Information   BI Info  
+Limit of Liability Calculation  LOL Calc   
+Claims History   Claims History 
+Company Information   Product & Company 
+Information   
+Risk Assessment        Flood Maps and Reports   Flood Maps   \n 
+INTERNAL USE ONLY 
+Account Structuring         IDES Worksheet   IDES   
+Rating and Pricing       
+Actuarial Pricing Actuarial   
+Aggregate Deductible Agg Deduct 
+Rating Model   ERM  
+Negotiation       
+Renewal Quotation    RNL Quote 
+New Business Quotation   NB Quote   
+Endorsement Quotation   ENDT Quote   
+Policy Wording   Wording Proposal - Quote   
+Issuance        
+Renewal Schedule RNL Schd  
+New Business Schedule NB Schd   
+Endorsement Schedule   ENDT Schd   
+Certificate of Currency   COC  
+Placing Slip   Placing Slip   
+Closing   Closing   
+Servicing      
+TUR, Peer Review   Compliance Corro 
+Stamp Duty Exceptions SD Exempt  
+RIQA Correspondence   RIQA Corro  
+Claims Report Mid Term   Claims Rep mid term   
+Third Party Survey   TP Survey   
+Broker Survey   Brkr Survey   
+Reinsurance (add only 
+when applicable) 
+ReInsurance Correspondence  RI Corro   
+ReInsurance Certificate   RI Cert 
+ \n

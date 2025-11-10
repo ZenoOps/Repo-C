@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/claim-audit-output.schema.json",
+  "title": "Claim Audit Output",
+  "description": "Structured result for claim document validation, fraud/amount checks, and premium extraction.",
+  "type": "object",
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["continue", "stop"],
+      "description": "Pipeline outcome."
+    },
+    "stopped_at": {
+      "type": "string",
+      "enum": ["none", "required_files", "required_form", "fraud_or_amount"],
+      "description": "Stage where processing stopped (or 'none')."
+    },
+    "early_exit_reason": {
+      "type": ["string", "null"],
+      "description": "Human-readable reason for early stop, if any."
+    },
+
+    "derived_requirements": {
+      "type": "object",
+      "description": "Case-specific requested items extracted from correspondence.",
+      "properties": {
+        "source_messages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filename": { "type": "string" },
+              "snippet": { "type": "string", "description": "≤12 words excerpt" }
+            },
+            "required": ["filename", "snippet"],
+            "additionalProperties": false
+          }
+        },
+        "additional_required_items": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "accommodation_cancellation",
+              "refund_status",
+              "proof_of_delay",
+              "proof_of_interruption",
+              "physician_letter",
+              "carrier_notice"
+            ]
+          }
+        }
+      },
+      "required": ["source_messages", "additional_required_items"],
+      "additionalProperties": false
+    },
+
+    "required_files_check": {
+      "type": "object",
+      "description": "Presence of baseline/additional required documents.",
+      "properties": {
+        "status": { "type": "string", "enum": ["success", "missing"] },
+        "missing_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["status", "missing_items"],
+      "additionalProperties": false
+    },
+
+    "required_form_check": {
+      "type": "object",
+      "description": "Claim-type detection and required form status.",
+      "properties": {
+        "claim_type_detected": {
+          "type": ["string", "null"],
+          "enum": ["trip_cancellation", "trip_delay", "trip_interruption", "delayed_property", "damaged_property", "stolen_property", "lost_property", null]
+        },
+        "required_form_role": {
+          "type": ["string", "null"],
+          "enum": ["trip_claim_form", "property_claim_form", null]
+        },
+        "missing_form_role": { "type": ["string", "null"] },
+        "status": { "type": "string", "enum": ["success", "missing"] }
+      },
+      "required": ["status", "claim_type_detected", "required_form_role", "missing_form_role"],
+      "additionalProperties": false
+    },
+
+    "fraud_and_amount_check": {
+      "type": "object",
+      "description": "Fraud signals and amount comparisons.",
+      "properties": {
+        "is_fraud_suspected": { "type": "boolean" },
+        "fraud_reasons": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "claim_total": { "type": ["number", "null"] },
+        "policy_claimable_max": { "type": ["number", "null"] },
+        "within_limit": { "type": ["boolean", "null"] },
+        "delta": { "type": ["number", "null"], "description": "claim_total − policy_claimable_max when both exist" },
+        "capped_payout": { "type": ["number", "null"] },
+        "approved_amount": { "type": ["number", "null"], "description": "Total amount paid to claimant (if available)" }
+      },
+      "required": ["is_fraud_suspected", "fraud_reasons", "claim_total", "policy_claimable_max", "within_limit", "delta", "capped_payout", "approved_amount"],
+      "additionalProperties": false
+    },
+
+    "payment_check": {
+      "type": "object",
+      "description": "Payment status summary.",
+      "properties": {
+        "payment_status": {
+          "type": "string",
+          "enum": ["partial_payment", "full_payment", "not_resolved", "not_known"]
+        },
+        "payment_reason": { "type": "string" }
+      },
+      "required": ["payment_status", "payment_reason"],
+      "additionalProperties": false
+    },
+
+    "premium_amount_check": {
+      "type": "object",
+      "description": "Single premium amount extracted from policy docs.",
+      "properties": {
+        "premium_amount": { "type": ["number", "null"] }
+      },
+      "required": ["premium_amount"],
+      "additionalProperties": false
+    },
+
+    "appetite": {
+      "type": "string",
+      "enum": ["approve", "decline", "missing"],
+      "description": "Approve if all checks pass; decline for medical/fraud; missing if required docs missing."
+    },
+
+    "notes": { "type": "string" },
+    "summary_of_findings": { "type": "string" },
+    "insights": { "type": "string"}
+  },
+
+  "required": [
+    "decision",
+    "stopped_at",
+    "early_exit_reason",
+    "derived_requirements",
+    "required_files_check",
+    "required_form_check",
+    "fraud_and_amount_check",
+    "payment_check",
+    "premium_amount_check",
+    "appetite",
+    "notes",
+    "summary_of_findings"
+  ],
+  "additionalProperties": false
+}

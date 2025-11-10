@@ -1,0 +1,207 @@
+=== Schema ===\n,Category,Field,Sub Fields,Unnamed: 3,Data Type,Mandatory Fields,Data Extraction Required?,Possible Source,Aliases (Data Extraction)
+0,Broker Details,Broker Network (Company),,,str,No,Yes,Email/Quote Slip,
+1,,Broker Name,,,str,No,Yes,Email/Quote Slip,
+2,,Broker Location (Branch),Street Address ,,str,No,Yes,Email/Quote Slip,Location
+3,,,Post Code,,str,No,Yes,Email/Quote Slip,
+4,,,City/Suburb,,int,No,Yes,Email/Quote Slip,
+5,,,State,,str,No,Yes,Email/Quote Slip,
+6,,,Country,,str,No,Yes,Email/Quote Slip,
+7,,Broker Email,,,str,No,Yes,Email/Quote Slip,Email
+8,,Broker Contact (Mobile),,,str,No,Yes,Email/Quote Slip,"Mobile, Phone"
+9,,Broker Commission,,,str,Yes,No,Email/Quote Slip,
+10,,Quotation Required by Date,,,Date,No,Yes,Email/Quote Slip,Quote Due by
+11,Insured Details,Insured,,,str,No,Yes,Email/Quote Slip,
+12,,ABN,,,Int,No,Yes,Email/Quote Slip,
+13,,Business Description,,,str,Yes,Yes,Email/Quote Slip,"Business Description, Business, Occupancy"
+14,,Current Insurer,,,str,No,Yes,Email/Quote Slip,
+15,,Gross Revenue/Annual Turnover,,,int,No,Yes(if applicable),Email/Quote Slip,"Turnover, Annual Turnover"
+16,,Interested Parties,,,str,No,Yes,Email/Quote Slip,
+17,Policy Info,Period of Insurance,From,,date,Yes,Yes,Email/Quote Slip,
+18,,,To,,date,Yes,Yes,Email/Quote Slip,
+19,,,Time Zone,,str,No,Yes,Email/Quote Slip,
+20,,Product Type,,,str,Yes,Yes,Email/Quote Slip,"ISR, Industrial Special Risk"
+21,,Fire/Crime Split,,,Yes/No,No,Yes (if applicable),Email/Quote Slip,
+22,,Fire,,,float,No,Yes (if applicable),Email/Quote Slip,
+23,,Crime,,,float,No,Yes (if applicable),Email/Quote Slip,
+24,Policy Coverage ,Declared Values,Section 1 – Material Loss or Damage (PD),Total,int,Yes(if applicable),Yes,Email/Quote Slip/Asset Schedule,Sum insured
+25,,,Section 2 – Consequential Loss (Business Interruption),Total,int,Yes(if applicable),Yes,Email/Quote Slip/Asset Schedule,Any additional info can be added as an additional field in the array
+26,,,,Gross Profit,int,No,Yes,Email/Quote Slip/Asset Schedule,
+27,,,,Loss of Rent (Gross Rental Income),int,No,Yes,Email/Quote Slip/Asset Schedule,
+28,,,,Payroll,int,No,Yes,Email/Quote Slip/Asset Schedule,
+29,,,,Claims Preparation Costs,int,No,Yes,Email/Quote Slip/Asset Schedule,
+30,,,,Severance Pay,int,No,Yes,Email/Quote Slip/Asset Schedule,
+31,,,,Location fees value,int,No,Yes,Email/Quote Slip/Asset Schedule,
+32,,,,Additional Increased Cost of Working,int,No,Yes,Email/Quote Slip/Asset Schedule,
+33,,,Combined Section 1 & 2 (Total Insured Value (Total Declared Value)),,int,Yes(if applicable),Yes,Email/Quote Slip/Asset Schedule,
+34,,Limits of Liability,"Section 1 - Material Damage
+",,int,Yes,Yes,Email/Quote Slip,Any additional info can be added as an additional field in the array
+35,,,Section 2 - Consequential Loss (Business Interruption),,int,Yes,Yes,Email/Quote Slip,
+36,,,Combined Section 1 & Section 2,,int,Yes,Yes,Email/Quote Slip,
+37,,,Undeclared Situations,,int,No,Yes,Email/Quote Slip,
+38,,Material Loss or Damage - Sub Limits (Section 1),"Accidental Damage
+
+",,str/int,Yes,Yes,Email/Quote Slip,Any additional info can be added as an additional field in the array
+39,,,"Burglary and/or Theft of Property
+
+",,str/int,Yes,Yes,Email/Quote Slip,
+40,,,"Personal property of employees and others (per person)
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+41,,,Personal property of employees and others (per event),,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+42,,,"Money
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+43,,,Glass,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+44,,,"Removal of Debris
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+45,,,"Landscaping
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+46,,,"Extra Cost of Reinstatement
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+47,,,"Professional Fees
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+48,,,"Additional Extra Cost of Reinstatement
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+49,,,"Property in Transit within the Commonwealth of Australia
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+50,,,"Contract Works
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+51,,,"Loss of Land Value
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+52,,,"Legal Liability to Make Enquiries
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+53,,,"Rewriting of Records
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+54,,,"Theft of Property in the Open Air
+
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+55,,,Statutory Inquiries,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+56,,,"Accompanied Buggae
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+57,,,Cost of Clearing Blocked Drains Pipes Filters and Pumps,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+58,,,Signs,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+59,,,Unspecified Damage,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+60,,,"Expediting Expenses
+",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+61,,,Unspecified Customer Goods,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+62,,,Works of Art Antiques and Curios,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+63,,,Weather Damage to certain property in Open Air,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+64,,,Decorative Livestock,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+65,,,Temporary Removal Exemption,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+66,,,Metered Water ,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+67,,,Premises in the Vicinity Prevention of Access,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+68,,,Contractual Damages ,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+69,,,Remote Premises of Public Utilities,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+70,,,Acquired Companies,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+71,,,Acquired Property,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+72,,,Damage Diminution and Accidental Discharge Costs,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+73,,,Prevention of Imminent Damage and/or Loss Minimisation,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+74,,,Statutory Authority Fees,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+75,,,Unpacking Expenses,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+76,,,Liability for Duty,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+77,,,Environmental Improvements,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+78,,,Portable Property in Open Air,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+79,,,"Replacing locks &/or keys, magnetic keys, card or similar devices",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+80,,,General Property ,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+81,,,Employee Dishonesty ,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+82,,,Exploratory Costs,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+83,,,"Labels, Containers, and Wrappings",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+84,,,Securities,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+85,,,Machinery Breakdown,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+86,,,Tree Removal,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+87,,,Additional Sub Limit,,str/int,No,Yes (if included in submission),Email/Quote Slip,Email/Quote Slip
+88,,Consequential Loss of Profits/Business Interuption (Section 2) - Sub Limits,,,str,Yes,Yes,Email/Quote Slip,Any additional info can be added as an additional field in the array
+89,,, Claims Preparation Costs ,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+90,,,(Additional) Increased Cost of Working,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+91,,,Accounts Receivable,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+92,,,Direct Suppliers and/or Direct Customers Premises,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+93,,,Unspecified Supplier’s and or Customers’ Premises ,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+94,,,"Premises/Property of Electricity, Gas, Water, Sewerage or Communication Service Company or Authority",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+95,,,Other Contributing Properties,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+96,,,"Infectious or Contagious Diseases; Vermin, Pests or Defective Sanitary Arrangements",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+97,,,"Food or Drink Poisoning; Murder, Suicide",,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+98,,,Contractual Fines and Penalties,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+99,,,Remote Premises of Public Utilities,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+100,,,Machinery Breakdown,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+101,,,Temporary Accommodation,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+102,,,Additional Sub Limit,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+103,,Combined Section 1 - Material Damage & Section 2 - Consequential Loss (Sub Limits of Liability),,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,Any additional info can be added as an additional field in the array
+104,,,Earth Quake,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+105,,,Flood,,str/int,Yes (if included in submission),Yes,Email/Quote Slip,
+106,,Indemnity Period,,,str,Yes (if included in submission),Yes,Email/Quote Slip,
+107,,Deductible Section 1 (Material Loss or Damage),,,str,Yes,Yes,Email/Quote Slip,
+108,,,All other losses,,int,Yes,Yes,Email/Quote Slip,All other Claims
+109,,,Flood,,int,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+110,,,Earthquake,,str,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+111,,,Specified Losses ,,str,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+112,,Deductible Section 2 – Consequential Loss,,,str,Yes,Yes,Email/Quote Slip,
+113,,,All other losses,,int,Yes,Yes,Email/Quote Slip,
+114,,,Flood,,int,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+115,,,Earthquake,,str,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+116,,,Specified Losses,,str,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+117,,Combined Section 1 & Section 2 - Deductible,,,str,Yes,Yes,Email/Quote Slip,
+118,,,All other losses,,int,Yes,Yes,Email/Quote Slip,
+119,,,Flood,,int,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+120,,,Earhquake,,str,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+121,,,Specified Losses,,str,Yes (if included in submission),Yes (if applicable),Email/Quote Slip,
+122,,Payroll Limits,,,str,No,Yes,Email/Quote Slip,
+123,,Uninsured Working Expenses,,,str,No,Yes,Email/Quote Slip,
+124,,Endorsement(s),,,str,No,Yes,Email/Quote Slip,Extract text under endorsements
+125,,Insurer Proportion (Capacity),,,str,Yes (if included in submission),Yes,Email/Quote Slip,"Capacity, Proportion"
+126,,Policy Wording,,,str,No,Yes,Email/Quote Slip,Extract text under policy wording
+127,,Additional UW Information,,,str,No,Yes,Email/Quote Slip,
+128,Risk,Number of locations,,,int,No,Yes,Email/Quote Slip/Asset Schedule,
+129,,Building Owner,,,Yes/No,Yes (if appicable),Yes (if applicable),Email/Quote Slip/Asset Schedule,
+130,,Situation - Property Address(es),Property Construction Details,Building,int,Yes,Yes,Email/Quote Slip/Asset Schedule,Any additional info can be added as an additional field in the array
+131,,,,Contents/Stock in Trade,int,Yes,Yes,Email/Quote Slip/Asset Schedule,
+132,,,,Construction - Wall,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+133,,,,Construction - Roof,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+134,,,,Construction - Floor,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+135,,,,Construction - Frame,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+136,,,,Contruction - Year Build,int,Yes,Yes,Email/Quote Slip/Asset Schedule,
+137,,,,"Fire Protection - Sprinklers, hose reels",str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+138,,,,"Security - Alarm, CCTV",str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+139,,,,Sprinkler effectiveness,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+140,,,,Fire alarm effectiveness,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+141,,,,Storage height,str,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+142,,,,Storage packaging,str,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+143,,,,Occupancy,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+144,,,,Number of storeys,str,Yes,Yes,Email/Quote Slip/Asset Schedule,
+145,,,"Location Coverage
+",Limit of Liability,int,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+146,,,,Fire Coverage,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+147,,,,Explosion and Aircraft,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+148,,,,Water Damage,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+149,,,,"Strike, Riot, Civil commotion",Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+150,,,,Accidental Damage,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+151,,,,Burgraly and Theft,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+152,,,,Earthquake,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+153,,,,Flood,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+154,,,,Hail,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+155,,,,Bushfire,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+156,,,,Windstorm,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+157,,,,Terrorism,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+158,,,,Machinery Breakdown,Yes/No,Yes (if applied),Yes,Email/Quote Slip/Asset Schedule,
+159,Loss History (Claims Details),Does this opportunity have past claims?,,,Yes/No,No,Yes(if applicable),Claim History,Any additional info can be added as an additional field in the array
+160,,Number of Claim(s),,,int,No,Yes(if applicable),Claim History,
+161,,Claim Number(s),,,int,No,Yes(if applicable),Claim History,
+162,,Loss Date,,,Date,No,Yes(if applicable),Claim History,
+163,,Reported Date,,,Date,No,Yes(if applicable),Claim History,
+164,,Claimant,,,str,No,Yes(if applicable),Claim History,
+165,,Risk Class,,,str,No,Yes(if applicable),Claim History,
+166,,Loss Description,,,str,No,Yes(if applicable),Claim History,
+167,,Claim Status,,,str,No,Yes(if applicable),Claim History,
+168,,Excess /Uninsured Excess,,,int,No,Yes(if applicable),Claim History,
+169,,Recovery,,,int,No,Yes(if applicable),Claim History,
+170,,Incurred Amount,,,int,No,Yes(if applicable),Claim History,
+171,,Total Incurred (all losses),,,int,No,Yes(if applicable),Claim History,
+\n\n

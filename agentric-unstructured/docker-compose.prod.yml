@@ -1,0 +1,125 @@
+services:
+  cache:
+    image: valkey/valkey:latest
+    ports:
+      - "26379:6379"
+    hostname: cache
+    command: redis-server --appendonly yes
+    volumes:
+      - cache-data:/data
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - ping
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  db:
+    container_name: agentric-db
+    image: postgres:latest
+    ports:
+      - "15432:5432"
+    hostname: db
+
+    environment:
+      POSTGRES_PASSWORD: "agentric"
+      POSTGRES_USER: "agentric"
+      POSTGRES_DB: "agentric"
+    volumes:
+      - db:/var/lib/postgresql/data
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "agentric"]
+      interval: 2s
+      timeout: 3s
+      retries: 40
+  app:
+    build:
+      context: .
+      dockerfile: deploy/docker/run/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    ports:
+      - "8022:8000"
+    environment:
+      VITE_USE_SERVER_LIFESPAN: "false" # true if ssr or separate service
+      SAQ_USE_SERVER_LIFESPAN: "false"
+    env_file:
+      - .env.docker.example
+    tty: true
+
+    volumes:
+      - ./team_states:/workspace/agentric/team_states
+      - ./schema:/workspace/agentric/schema
+      - ./templates:/workspace/agentric/templates
+
+
+  worker:
+    build:
+      context: .
+      dockerfile: deploy/docker/run/Dockerfile
+    command: litestar workers run
+    # command: sh -c "sleep 3 && litestar workers run"
+    restart: unless-stopped
+
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    env_file:
+      - .env.docker.example
+    volumes:
+      - ./schema:/workspace/agentric/schema
+
+  migrator:
+    build:
+      context: .
+      dockerfile: deploy/docker/run/Dockerfile
+    restart: "no"
+    command: litestar database upgrade --no-prompt
+    # command: sh -c "sleep 3 && litestar database upgrade --no-prompt"
+    env_file:
+      - .env.docker.example
+
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "0.0.0.0:6831:6831/udp" # UDP Thrift Compact for agent
+      - "0.0.0.0:16686:16686"   # Jaeger UI
+      - "0.0.0.0:14268:14268"   # HTTP Thrift
+      - "0.0.0.0:14250:14250"   # gRPC
+      - "0.0.0.0:4317:4317"
+      - "0.0.0.0:4318:4318"
+      - "0.0.0.0:5778:5778"
+      - "0.0.0.0:9411:9411"
+    command: 
+      - "--collector.otlp.enabled=true"
+    restart: unless-stopped
+
+volumes:
+  db: {}
+  cache-data: {}
+ 

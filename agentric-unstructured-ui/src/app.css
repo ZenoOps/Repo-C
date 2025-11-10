@@ -1,0 +1,48 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme {
+	/* --font-display: 'Roboto', 'sans-serif'; */
+	--font-roboto: 'Roboto', sans-serif;
+	--color-primary: #3a7e92;
+	--color-secondary: #e4eef1
+		/* --breakpoint-3xl: 120rem;
+  --color-avocado-100: oklch(0.99 0 0);
+  --color-avocado-200: oklch(0.98 0.04 113.22);
+  --color-avocado-300: oklch(0.94 0.11 115.03);
+  --color-avocado-400: oklch(0.92 0.19 114.08);
+  --color-avocado-500: oklch(0.84 0.18 117.33);
+  --color-avocado-600: oklch(0.53 0.12 118.34);
+  --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1); */
+		/* ... */;
+}
+@layer base {
+	button:not([disabled]):not([loading]) {
+		@apply cursor-pointer;
+	}
+}
+.bg-secondary {
+	background-color: var(--color-secondary);
+}
+
+/* ::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2); 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.4);
+} */
+
+::-webkit-scrollbar {
+	display: none;
+}

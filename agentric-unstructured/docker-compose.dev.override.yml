@@ -1,0 +1,81 @@
+x-development-volumes-watch: &development-volumes-watch
+  volumes:
+    - ./tests:/workspace/agentric/tests/
+    - ./src:/workspace/agentric/src/
+    - ./Makefile:/workspace/agentric/Makefile
+    - ./pyproject.toml:/workspace/agentric/pyproject.toml
+    - ./uv.lock:/workspace/agentric/uv.lock
+    - ./.env.docker.example:/workspace/agentric/.env
+    - ./schema:/workspace/agentric/schema
+    - ./schema:/workspace/agentric/team_states
+    - ./templates:/workspace/agentric/templates
+  develop:
+    watch:
+      - action: rebuild
+        x-initialSync: true
+        path: ./src/
+        target: /workspace/agentric/
+services:
+  app:
+    container_name: agentric-app
+    build:
+      context: .
+      dockerfile: deploy/docker/dev/Dockerfile
+    ports:
+      - "8023:8000"
+      - "3006:3006"
+    tty: true
+    environment:
+      VITE_USE_SERVER_LIFESPAN: "true" # true in dev or run
+      VITE_DEV_MODE: "true"
+      VITE_HOT_RELOAD: "true"
+      SAQ_USE_SERVER_LIFESPAN: "false"
+    command: litestar run --reload --host 0.0.0.0 --port 8000
+    restart: always
+    <<: *development-volumes-watch
+  worker:
+    build:
+      context: .
+      dockerfile: deploy/docker/dev/Dockerfile
+    command: litestar workers run
+    tty: true
+
+    restart: always
+    <<: *development-volumes-watch
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+
+    env_file:
+      - .env.docker.example
+    volumes:
+      - ./schema:/workspace/agentric/schema
+  migrator:
+    build:
+      context: .
+      dockerfile: deploy/docker/dev/Dockerfile
+    command: litestar database upgrade --no-prompt
+    # command: sh -c "sleep 3 && litestar database upgrade --no-prompt"
+    restart: "no"
+    <<: *development-volumes-watch
+    env_file:
+      - .env.docker.example
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+  collector:
+    image: otel/opentelemetry-collector-contrib
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+    ports:
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the Collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension

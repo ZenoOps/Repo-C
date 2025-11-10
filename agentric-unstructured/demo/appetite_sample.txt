@@ -1,0 +1,90 @@
+Sender: David Phillips <mscdclsc@eclinton.com.au>
+Sent on: 2008-07-01 15:50:14+0000
+Subject: [EXTERNAL] Approved Quote Request - Faith Savings & Commercial Pty Ltd
+
+--- BROKER DETAILS ---
+Broker Name: David Phillips
+Broker Commission: 15%
+Broker Post Code: 10001 (New York office)
+Product Type: Industrial Special Risks
+Line of Business: Property & Casualty Insurance
+
+--- COMPANY DETAILS ---
+ABN: 90 123 456 789
+Fire/Crime Split: 80/20 (Fire/Crime coverage ratio)
+Business Description: Specialized steel product manufacturer producing roofing sheets, wall cladding, structural purlins, and architectural flashings for commercial construction. Operates a 8-acre facility with automated production lines and quality testing laboratory.
+
+--- CLAIMS HISTORY ---
+Number of Claims: 1
+Last Loss Date: 15/05/2015 (Minor equipment fire - $25,000 settled)
+
+--- CUSTOMER DETAILS ---
+Customer Name: Faith Savings & Commercial Pty Ltd
+Customer Address: 11-00 Aurora St, N ospestrus Falls, NY 1501
+Post Code: 1501
+
+--- POLICY INFO ---
+Period of Insurance:
+Effectivity Date: 01/01/2016
+Quote Due Date: 02/11/2018 (2 years coverage)
+Policy Start Date: 01/01/2016
+Policy End Date: 02/11/2018
+
+--- POLICY COVERAGE ---
+Product Type: Industrial Special Risks
+
+Declared Values:
+Section 1 - Material Damage: $25,200,000
+Section 2 - Consequential Loss: $1,800,000
+
+Limits of Liability:
+Section 1 - Material Damage: $25,200,000
+Section 2 - Consequential Loss (Business Interruption): $1,800,000
+Combined Section 1 & Section 2: $27,000,000
+
+Material Loss or Damage - Sub Limits (Section 1):
+Accidental Damage: $100,000
+Burglary and/or Theft of Property: $45,000
+
+Consequential Loss of Profits/Business Interruption (Section 2) - Sub Limits: $500,000
+
+Deductibles:
+Section 1 (Material Loss or Damage):
+All other losses: $2,000
+
+Section 2 (Consequential Loss):
+All other losses: $5,000
+
+Combined Section 1 & Section 2:
+All other losses: $10,000
+
+--- RISK DETAILS ---
+Property Address: 11-00 Aurora St, N ospestrus Falls, NY 1501
+Construction Type: Mixed (concrete and steel)
+
+Property Construction Details:
+Buildings: Concrete-reinforced industrial facility
+Construction - Wall: Mixed construction (concrete panel & metal sheet on metal structure)
+Construction - Roof: Iron/steel on metal structure
+Construction - Floor: Concrete slab
+Construction - Frame: Steel frame
+Construction - Year Built: 1992
+
+Fire Protection:
+Sprinklers: Fully operational wet system
+Hose reels: 8 located throughout facility
+Fire hydrants: 7 on premises
+Sprinkler effectiveness: 100% coverage
+Fire alarm effectiveness: Monitored 24/7
+Fire Protection: Full sprinkler system with 100% coverage
+
+Security:
+Security: Back-to-base monitored alarm, 12 CCTV cameras, electronic keycard system
+
+Occupancy Details:
+Occupancy: Heavy manufacturing
+Number of storeys: Single level facility (high bay)
+
+-----Excel ATTACHMENT: Complete_Asset_Schedule.xlsx-----
+Item No.;Customer Name;Address;Post Code;Description;Year Built;Construction;Buildings;Contents;Stock;Total Material Damage;Gross Profit;Total Consequential Loss;Combined
+9;Faith Savings & Commercial Pty Ltd;11-00 Aurora St;1501;Steel Manufacturing;1992;Mixed;19000000;2200000;4000000;25200000;1800000;1800000;27000000
