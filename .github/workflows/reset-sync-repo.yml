@@ -6,7 +6,8 @@ on:
 jobs:
   reset:
     runs-on: ubuntu-latest
-
+    environment:
+      name: ${{ github.ref == 'refs/heads/unstable-release' && 'MAIN' }}
     steps:
       - name: 1. Checkout Target Repo
         uses: actions/checkout@v4
